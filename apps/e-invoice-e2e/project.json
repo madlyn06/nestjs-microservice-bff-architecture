@@ -1,0 +1,17 @@
+{
+  "name": "e-invoice-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["e-invoice"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/e-invoice-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["e-invoice:build", "e-invoice:serve"]
+    }
+  }
+}
