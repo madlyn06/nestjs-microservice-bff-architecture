@@ -40,11 +40,6 @@ export class ExceptionInterceptor implements NestInterceptor {
           error ||
           HttpMessage.INTERNAL_SERVER_ERROR;
 
-        console.log(
-          'status code ',
-          error?.code || error?.statusCode || error?.response?.statusCode,
-        );
-
         const statusCode =
           error?.code ||
           error?.statusCode ||

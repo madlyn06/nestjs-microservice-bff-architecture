@@ -6,15 +6,15 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.connectMicroservice<MicroserviceOptions>({
+  app.connectMicroservice({
     transport: Transport.TCP,
     options: {
-      host: 'localhost',
-      port: 3001,
+      host: AppModule.configuration.TCP_CONFIG.TCP_INVOICE_SERVICE.options.host,
+      port: AppModule.configuration.TCP_CONFIG.TCP_INVOICE_SERVICE.options.port,
     },
   });
 

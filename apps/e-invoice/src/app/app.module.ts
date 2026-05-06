@@ -1,10 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { configuration, IConfiguration } from '../configuration';
+import { MongoProvider } from '@common/config/mongodb.config';
+import { ConfigModule } from '@nestjs/config';
+import { InvoiceModule } from './modules/invoice/invoice.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, load: [() => configuration] }),
+    MongoProvider,
+    InvoiceModule,
+  ],
+  controllers: [],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  static configuration: IConfiguration = configuration;
+}
