@@ -31,6 +31,7 @@ export class ExceptionInterceptor implements NestInterceptor {
         return data;
       }),
       catchError((error) => {
+        console.log(error, 'errorerrorerrorerror');
         this.logger.error({ error });
         const durationMs = Date.now() - start_time;
 

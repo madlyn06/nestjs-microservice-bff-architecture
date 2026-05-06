@@ -4,9 +4,12 @@ import {
   ExecutionContext,
   CallHandler,
   Logger,
+  HttpStatus,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+import { RpcException } from '@nestjs/microservices';
+import { HttpMessage } from '@common/constant/enum/httpMessage.constant';
 @Injectable()
 export class TcpLoggerInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -28,6 +31,26 @@ export class TcpLoggerInterceptor implements NestInterceptor {
         Logger.log(
           `TCP end processing with process id ${processID} >> method: ${handlerName} affter ${durationMs}ms`,
         );
+      }),
+      catchError((error) => {
+        const duration = Date.now() - startTime;
+        Logger.error(
+          `TCP » Error process '${processID}': ${error.message} >> data: ${JSON.stringify(
+            error,
+          )}, after: '${duration}ms'`,
+        );
+
+        throw new RpcException({
+          code:
+            error.status ||
+            error.code ||
+            error.error?.code ||
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          message:
+            error?.response?.message ||
+            error?.message ||
+            HttpMessage.INTERNAL_SERVER_ERROR,
+        });
       }),
     );
   }

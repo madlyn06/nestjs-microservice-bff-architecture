@@ -11,3 +11,26 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - ./docker/docker_data/mongodb_data:/data/db
+    restart: unless-stopped
+    networks:
+      - einvoice-nw
+
+  postgres:
+    image: postgres
+    container_name: e-invoice-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: e-invoice
+    volumes:
+      - ./docker/docker_data/postgres_data:/var/lib/postgresql
+    networks:
+      - einvoice-nw
+
+networks:
+  einvoice-nw:
+    driver: bridge
+    name: einvoice-nw

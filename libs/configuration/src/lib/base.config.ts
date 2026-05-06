@@ -20,7 +20,6 @@ export class BaseConfiguration {
 
   validate() {
     const errors = validateSync(this);
-    console.log(errors, 'errors');
     if (errors.length) {
       throw new Error(
         'Configuration validation failed: ' + JSON.stringify(errors),
