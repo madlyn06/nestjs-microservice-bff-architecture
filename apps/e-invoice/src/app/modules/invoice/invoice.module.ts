@@ -1,4 +1,3 @@
-import { MongoProvider } from '@common/config/mongodb.config';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { InvoiceDestination } from '@common/schemas/invoice.schemas';
@@ -7,7 +6,7 @@ import { InvoiceService } from './services/invoice.service';
 import { InvoiceRepository } from './repositories/invoice.repository';
 
 @Module({
-  imports: [MongoProvider, MongooseModule.forFeature([InvoiceDestination])],
+  imports: [MongooseModule.forFeature([InvoiceDestination])],
   controllers: [InvoiceController],
   providers: [InvoiceService, InvoiceRepository],
 })

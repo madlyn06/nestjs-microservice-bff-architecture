@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { configuration, IConfiguration } from '../configuration';
-import { ProductModule } from './product/product.module';
-import { TypeOrmProvider } from '@common/config/type-orm.config';
+import { MongoProvider } from '@common/config/mongodb.config';
+import { ConfigModule } from '@nestjs/config';
+import { RoleModule } from './modules/role/role.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [() => configuration] }),
-    ProductModule,
-    TypeOrmProvider,
+    MongoProvider,
+    RoleModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
