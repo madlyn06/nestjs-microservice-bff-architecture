@@ -42,9 +42,8 @@ export class ExceptionInterceptor implements NestInterceptor {
           HttpMessage.INTERNAL_SERVER_ERROR;
 
         const statusCode =
-          error?.code ||
-          error?.statusCode ||
-          error?.response?.statusCode ||
+          (typeof error?.statusCode === 'number' ? error.statusCode : null) ||
+          (typeof error?.response?.statusCode === 'number' ? error.response.statusCode : null) ||
           HttpStatus.INTERNAL_SERVER_ERROR;
 
         throw new HttpException(

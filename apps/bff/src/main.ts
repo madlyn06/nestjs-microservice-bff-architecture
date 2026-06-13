@@ -20,15 +20,14 @@ async function bootstrap() {
       .setDescription('E-invoice BFF API')
       .setVersion('1.0')
       .addTag('e-invoice')
+      .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
 
     const port = AppModule.configuration.APP_CONFIG.PORT;
     await app.listen(port);
-    Logger.log(
-      `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
-    );
+    Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
   } catch (error) {
     console.log(error, 'errorr ne');
   }

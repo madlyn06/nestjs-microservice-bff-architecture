@@ -8,4 +8,4 @@ import { Response } from '@common/interfaces/tcp/common/response.interface';
 import { InvoiceTcpResponse } from '@common/interfaces/tcp/invoice';
 
 @Controller()
-export class RoleController {}
+export class RoleController { }

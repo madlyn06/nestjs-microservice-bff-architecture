@@ -8,6 +8,7 @@ import { CreateUserTcpRequest } from '@common/interfaces/tcp/user';
 import { map } from 'rxjs';
 import { TCP_REQUEST_MESSAGE } from '@common/constant/enum/tcp-request-message';
 import { TcpService } from '@common/config/tcp.config';
+import { Authorization } from '@common/decorators/authorize.decorator';
 
 @ApiTags('User')
 @Controller('user')
@@ -15,9 +16,10 @@ export class UserController {
   constructor(
     @Inject(TcpService.USER_ACCESS_SERVICE)
     private readonly userAccessClient: TcpClient,
-  ) {}
+  ) { }
 
   @Post()
+  @Authorization({ secured: true })
   @ApiOkResponse({
     type: ResponseDto<string>,
   })

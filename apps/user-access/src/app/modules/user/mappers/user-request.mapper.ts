@@ -4,9 +4,11 @@ import { ObjectId } from 'mongodb';
 
 export const createUserRequestMapping = (
   data: CreateUserTcpRequest,
+  keycloakUserId: string,
 ): Partial<User> => {
   return {
     ...data,
     roles: data.roles.map((role) => new ObjectId(role)),
+    userId: keycloakUserId,
   };
 };

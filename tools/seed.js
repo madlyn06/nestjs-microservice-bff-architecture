@@ -62,15 +62,19 @@ async function bootstrap() {
   }
 
   // lấy connection string từ ENV service
-  const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+  const mongoUri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017';
   const client = new MongoClient(mongoUri);
-
+console.log('🔗 Connecting to MongoDB at:', mongoUri);
   try {
     await client.connect();
     const db = client.db(process.env.MONGODB_DB_NAME || 'einvoice-app');
 
-    const files = fs.readdirSync(absoluteDir).filter((f) => f.endsWith('.json'));
-
+    const files = fs.readdirSync(absoluteDir).filter((f) => {
+      // remove invisible/control unicode chars so filenames like "role.json\u200E" still match
+      const cleaned = f.replace(/\p{C}/gu, '');
+      return cleaned.toLowerCase().endsWith('.json');
+    });
+    console.log(`📂 Found ${files.length} seeder files in ${absoluteDir}`);
     for (const file of files) {
       const filePath = path.join(absoluteDir, file);
       await processFile(filePath, mode, db);
